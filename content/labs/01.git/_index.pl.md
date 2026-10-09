@@ -456,6 +456,30 @@ gitGraph
 
 Jeżeli `C` zawiera błąd, polecenie `git revert C` utworzy nowy commit `D`, który odwróci działanie commita `C`.
 
+#### A jeśli Git nie wie, co cofnąć?
+
+Wyobraźmy sobie, że zauważyliśmy błąd w commicie `C`. Po nim powstały jeszcze dwa commity: `D` i `E`.
+
+
+```mermaid
+gitGraph
+  commit id: "A"
+  commit id: "B"
+  commit id: "C: błędna zmiana"
+  commit id: "D"
+  commit id: "E : modyfikuje zmianę z C"
+```
+
+Chcemy cofnąć zmiany z commita C za pomocą git revert C. Jest jednak problem: w commicie E zmieniono tę samą linię. Git może nie potrafić jednoznacznie odwrócić zmiany z C i jednocześnie zachować późniejszej zmiany z E. Wtedy zatrzyma operację i zgłosi **konflikt**, który trzeba rozwiązać ręcznie.
+
+Musimy sami zdecydować, jak powinien wyglądać ten fragment kodu. Po poprawieniu pliku kończymy operację:
+
+
+```bash
+git add Program.cs
+git revert --continue
+```
+
 ## Zadanie 3.
 
 Utwórz prosty projekt C# oraz historię składającą się z kilku commitów. Następnie celowo doprowadź repozytorium do kolejnych problematycznych sytuacji.
